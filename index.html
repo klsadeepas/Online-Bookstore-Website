@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookNest — Online Bookstore | Discover Your Next Great Read</title>
+  <meta name="description" content="BookNest is a modern online bookstore. Browse 30+ curated books across programming, science, business, novels and more. Fast, beautiful, and made for book lovers." />
+  <meta name="author" content="BookNest" />
+  <meta property="og:title" content="BookNest — Online Bookstore" />
+  <meta property="og:description" content="Discover, collect and love great books at BookNest." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.jpeg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BookNest — Online Bookstore" />
+  <meta name="twitter:image" content="/og-image.jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <div class="page-loader"><div class="spinner"></div></div>
+  <div id="nav-placeholder"></div>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="anim-slide-up">
+          <span class="eyebrow">📚 Over 30,000 titles</span>
+          <h1>Find your next <span class="grad typing" id="typeword">favourite</span><br>book at <span class="grad">BookNest</span></h1>
+          <p class="lead">Explore a beautifully curated library of programming, science, business, self-help and fiction. Delivered to your door, loved for a lifetime.</p>
+          <form class="hero-search" onsubmit="event.preventDefault(); const v=this.q.value.trim(); if(v) location.href='/books.html?q='+encodeURIComponent(v);">
+            <input name="q" type="text" placeholder="Search by title, author or category..." aria-label="Search books">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+          <div class="hero-cta">
+            <a class="btn btn-accent" href="/books.html">Shop Now →</a>
+            <a class="btn btn-ghost" href="/categories.html">Browse Categories</a>
+          </div>
+          <div class="hero-stats">
+            <div><div class="num" data-count="30" data-suffix="+">0</div><div class="lbl">Curated Books</div></div>
+            <div><div class="num" data-count="15">0</div><div class="lbl">Categories</div></div>
+            <div><div class="num" data-count="24" data-suffix="k+">0</div><div class="lbl">Happy Readers</div></div>
+          </div>
+        </div>
+        <div class="hero-visual anim-zoom">
+          <div class="stack" id="heroStack"></div>
+          <div class="floating-card top float"><span class="fc-ico">★</span><div><strong>4.9/5</strong><br><small style="color:var(--text-light)">10k+ reviews</small></div></div>
+          <div class="floating-card bottom float" style="animation-delay:1s"><span class="fc-ico">🚚</span><div><strong>Free Shipping</strong><br><small style="color:var(--text-light)">Orders over $35</small></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Categories ===== -->
+    <section class="section container">
+      <div class="section-head reveal"><span class="eyebrow">Browse</span><h2>Shop by Category</h2><p>Find exactly what you love, from code to cosmos.</p></div>
+      <div class="cat-grid" id="homeCats"></div>
+    </section>
+
+    <!-- ===== Featured Books ===== -->
+    <section class="section container">
+      <div class="section-head reveal"><span class="eyebrow">Hand-picked</span><h2>Featured Books</h2><p>Our editors’ top recommendations this month.</p></div>
+      <div class="books-grid" id="featured"></div>
+    </section>
+
+    <!-- ===== Book of the Week + Countdown ===== -->
+    <section class="section container">
+      <div class="glass botw reveal" id="botw"></div>
+    </section>
+
+    <!-- ===== Best Sellers ===== -->
+    <section class="section container">
+      <div class="section-head reveal"><span class="eyebrow">Trending</span><h2>Best Sellers</h2><p>The books everyone is reading right now.</p></div>
+      <div class="books-grid" id="bestsellers"></div>
+    </section>
+
+    <!-- ===== Latest Books ===== -->
+    <section class="section container">
+      <div class="section-head reveal"><span class="eyebrow">Fresh off the press</span><h2>Latest Arrivals</h2><p>Just added to the BookNest shelves.</p></div>
+      <div class="books-grid" id="latest"></div>
+      <div style="text-align:center;margin-top:36px"><a class="btn btn-primary" href="/books.html">View All Books</a></div>
+    </section>
+
+    <!-- ===== Top Authors ===== -->
+    <section class="section container">
+      <div class="section-head reveal"><span class="eyebrow">Meet the minds</span><h2>Top Authors</h2><p>Bestselling voices from the BookNest community.</p></div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))" id="authors"></div>
+    </section>
+
+    <!-- ===== Reviews ===== -->
+    <section class="section container">
+      <div class="section-head reveal"><span class="eyebrow">Loved by readers</span><h2>What Our Readers Say</h2></div>
+      <div class="reveal" style="max-width:720px;margin:0 auto;overflow:hidden">
+        <div class="reviews-track" id="reviewsTrack"></div>
+        <div class="slider-dots" id="reviewDots"></div>
+      </div>
+    </section>
+
+    <!-- ===== Newsletter ===== -->
+    <section class="section container">
+      <div class="newsletter reveal">
+        <h2>Join the BookNest Club</h2>
+        <p>Get weekly reading recommendations, early access to deals and 15% off your first order.</p>
+        <form data-newsletter><input type="email" placeholder="Enter your email" required aria-label="Email"><button class="btn btn-accent" type="submit">Subscribe</button></form>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="/js/books.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    /* ===== Home page rendering ===== */
+    document.addEventListener('DOMContentLoaded', () => {
+      // Hero stacked covers
+      const featuredList = [...BOOKS].sort((a,b)=>b.rating-a.rating);
+      document.getElementById('heroStack').innerHTML = featuredList.slice(0,3).map(b=>coverHTML(b)).join('');
+
+      // Categories
+      document.getElementById('homeCats').innerHTML = CATEGORIES.map(c=>{
+        const count = BOOKS.filter(b=>b.category===c.name).length;
+        return `<a class="cat-tile reveal" href="/books.html?category=${encodeURIComponent(c.name)}" style="background:${c.grad}"><span class="c-ico">${c.icon}</span><h4>${c.name}</h4><small>${count} book${count!==1?'s':''}</small></a>`;
+      }).join('');
+
+      renderBooks(featuredList.slice(0,8), 'featured');
+      renderBooks([...BOOKS].sort((a,b)=>new Date(b.published)-new Date(a.published)).slice(0,8), 'latest');
+      renderBooks([...BOOKS].sort((a,b)=>b.reviews-a.reviews).slice(0,8), 'bestsellers');
+
+      // Book of the week
+      const botw = featuredList[0];
+      document.getElementById('botw').innerHTML = `
+        <a href="/details.html?id=${botw.id}">${coverHTML(botw)}</a>
+        <div>
+          <span class="eyebrow">⭐ Book of the Week</span>
+          <h2>${botw.title}</h2>
+          <p style="color:var(--text-light)">by ${botw.author}</p>
+          ${starsHTML(botw.rating, botw.reviews)}
+          <p style="margin:14px 0">${botw.description}</p>
+          <p style="font-weight:600">Offer ends in:</p>
+          <div class="countdown" id="countdown"></div>
+          <div class="price-row" style="margin-bottom:16px"><span class="price" style="font-size:1.6rem">${money(botw.price)}</span> <span class="old-price">${money(botw.oldPrice)}</span> <span class="disc-tag" style="position:static">-${botw.discount}%</span></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="addToCart(${botw.id})">Add to Cart</button>
+            <a class="btn btn-ghost" href="/details.html?id=${botw.id}">Details</a>
+          </div>
+        </div>`;
+
+      // Countdown (48h rolling)
+      const end = Date.now() + 1000*60*60*47 + 1000*60*32;
+      function tick(){
+        const d = Math.max(0, end - Date.now());
+        const h = Math.floor(d/3.6e6), m = Math.floor(d%3.6e6/6e4), s = Math.floor(d%6e4/1e3);
+        const cd = document.getElementById('countdown');
+        if(cd) cd.innerHTML = [['Hrs',h],['Min',m],['Sec',s]].map(([l,v])=>`<div class="cd-box"><span class="n">${String(v).padStart(2,'0')}</span><span class="l">${l}</span></div>`).join('');
+      }
+      tick(); setInterval(tick, 1000);
+
+      // Authors
+      const authors = [...new Set(BOOKS.map(b=>b.author))].slice(0,6);
+      document.getElementById('authors').innerHTML = authors.map((a,i)=>{
+        const books = BOOKS.filter(b=>b.author===a);
+        return `<a class="author-card card reveal d${(i%5)+1}" href="/books.html?q=${encodeURIComponent(a)}" style="padding:24px"><div class="author-avatar">${initials(a)}</div><h4 style="font-family:var(--font);font-size:1rem">${a}</h4><small style="color:var(--text-light)">${books.length} books</small></a>`;
+      }).join('');
+
+      // Reviews slider
+      const REVIEWS = [
+        {n:'Amara J.', t:'BookNest completely changed how I discover books. The recommendations are spot on and delivery was lightning fast!'},
+        {n:'Leo M.', t:'Beautiful shopping experience. I found three programming books I had been searching for months. Highly recommend.'},
+        {n:'Sara P.', t:'The wishlist and cart features are so smooth. Ordered a stack for my kids and they love every one of them.'},
+        {n:'Owen T.', t:'Great prices, gorgeous interface and honestly the best online bookstore I have used. Five stars!'}
+      ];
+      const track = document.getElementById('reviewsTrack');
+      track.innerHTML = REVIEWS.map(r=>`<div class="review-card">${starsHTML(5)}<p class="quote">“${r.t}”</p><div class="review-user"><span class="avatar">${initials(r.n)}</span><div><strong>${r.n}</strong><br><small style="color:var(--text-light)">Verified buyer</small></div></div></div>`).join('');
+      const dots = document.getElementById('reviewDots');
+      dots.innerHTML = REVIEWS.map((_,i)=>`<button class="${i===0?'active':''}" aria-label="Review ${i+1}"></button>`).join('');
+      let idx=0;
+      function go(i){ idx=(i+REVIEWS.length)%REVIEWS.length; track.style.transform=`translateX(-${idx*100}%)`; [...dots.children].forEach((d,j)=>d.classList.toggle('active',j===idx)); }
+      [...dots.children].forEach((d,i)=>d.onclick=()=>go(i));
+      setInterval(()=>go(idx+1), 5000);
+
+      // Typing effect
+      const words=['favourite','next great','must-read','life-changing'];
+      const el=document.getElementById('typeword'); let wi=0,ci=0,del=false;
+      function type(){ const w=words[wi]; el.textContent=w.slice(0,ci);
+        if(!del && ci<w.length){ci++;setTimeout(type,90);}
+        else if(!del){del=true;setTimeout(type,1600);}
+        else if(ci>0){ci--;setTimeout(type,45);}
+        else{del=false;wi=(wi+1)%words.length;setTimeout(type,300);} }
+      type();
+
+      observeReveal();
+      maybeNewsletterPopup();
+    });
+  </script>
+</body>
+</html>

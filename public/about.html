@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — BookNest</title>
+  <meta name="description" content="Learn the story, mission and vision behind BookNest — a modern online bookstore built for book lovers everywhere." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <header class="page-banner"><div class="container"><h1>About BookNest</h1><div class="breadcrumb"><a href="/index.html">Home</a> / <span>About</span></div></div></header>
+
+  <main>
+    <!-- Story -->
+    <section class="section container">
+      <div class="details-grid" style="align-items:center">
+        <div class="reveal left">
+          <div class="glass" style="padding:8px;border-radius:24px">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px" id="aboutCovers"></div>
+          </div>
+        </div>
+        <div class="reveal right">
+          <span class="eyebrow">Our Story</span>
+          <h2>Books that spark a lifetime of curiosity</h2>
+          <p style="color:var(--text-light);margin:16px 0">BookNest began in 2018 with a simple belief: everyone deserves easy access to great books. What started as a tiny neighbourhood shop has grown into a beloved online bookstore serving thousands of readers worldwide.</p>
+          <p style="color:var(--text-light)">We hand-pick every title, obsess over the reading experience, and build technology that makes discovering your next favourite book effortless and joyful.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission / Vision -->
+    <section class="section container">
+      <div class="grid" style="grid-template-columns:1fr 1fr">
+        <div class="card reveal" style="padding:34px"><div style="font-size:2rem">🎯</div><h3 style="margin:12px 0">Our Mission</h3><p style="color:var(--text-light)">To make reading irresistible by connecting curious minds with the perfect books — affordably, beautifully and instantly.</p></div>
+        <div class="card reveal d1" style="padding:34px"><div style="font-size:2rem">🔭</div><h3 style="margin:12px 0">Our Vision</h3><p style="color:var(--text-light)">A world where every person has a cozy digital nest full of stories, ideas and knowledge they love coming back to.</p></div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="section container">
+      <div class="glass" style="padding:44px">
+        <div class="stats-grid">
+          <div class="stat reveal"><div class="num" data-count="30" data-suffix="+">0</div><div class="lbl">Curated Titles</div></div>
+          <div class="stat reveal d1"><div class="num" data-count="24" data-suffix="k+">0</div><div class="lbl">Happy Readers</div></div>
+          <div class="stat reveal d2"><div class="num" data-count="15">0</div><div class="lbl">Categories</div></div>
+          <div class="stat reveal d3"><div class="num" data-count="98" data-suffix="%">0</div><div class="lbl">Satisfaction</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="section container">
+      <div class="section-head reveal"><span class="eyebrow">The People</span><h2>Meet Our Team</h2><p>The book-loving humans behind BookNest.</p></div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))" id="team"></div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="/js/books.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('aboutCovers').innerHTML = [...BOOKS].sort((a,b)=>b.rating-a.rating).slice(0,6).map(b=>coverHTML(b)).join('');
+      const team = [
+        {n:'Emma Watson', r:'Founder & CEO'},{n:'James Lee', r:'Head of Curation'},
+        {n:'Sofia Ali', r:'Design Lead'},{n:'Noah Kim', r:'Customer Happiness'}
+      ];
+      document.getElementById('team').innerHTML = team.map((t,i)=>`<div class="author-card card reveal d${(i%5)+1}" style="padding:28px"><div class="author-avatar">${initials(t.n)}</div><h4 style="font-family:var(--font);font-size:1.05rem">${t.n}</h4><small style="color:var(--text-light)">${t.r}</small></div>`).join('');
+      observeReveal(); animateCounters();
+    });
+  </script>
+</body>
+</html>
