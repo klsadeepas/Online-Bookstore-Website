@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — BookNest</title>
+  <meta name="description" content="Securely complete your BookNest order. Enter your delivery details and choose a payment method." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <header class="page-banner"><div class="container"><h1>Checkout</h1><div class="breadcrumb"><a href="/index.html">Home</a> / <a href="/cart.html">Cart</a> / <span>Checkout</span></div></div></header>
+  <main class="container section">
+    <div class="cart-layout">
+      <form id="checkoutForm" class="card" style="padding:28px" novalidate>
+        <h3 style="font-family:var(--font);margin-bottom:18px">👋 Customer Information</h3>
+        <div class="form-grid">
+          <div class="field"><label>Full Name</label><input name="fullName" type="text" placeholder="Jane Doe"><span class="err"></span></div>
+          <div class="field"><label>Email</label><input name="email" type="email" placeholder="jane@email.com"><span class="err"></span></div>
+          <div class="field"><label>Phone</label><input name="phone" type="tel" placeholder="+1 555 123 4567"><span class="err"></span></div>
+          <div class="field"><label>Country</label>
+            <select name="country"><option value="">Select country</option><option>United States</option><option>United Kingdom</option><option>Canada</option><option>Australia</option><option>India</option><option>Germany</option><option>Other</option></select><span class="err"></span>
+          </div>
+        </div>
+        <div class="field"><label>Address</label><input name="address" type="text" placeholder="123 Book Street"><span class="err"></span></div>
+        <div class="form-grid">
+          <div class="field"><label>City</label><input name="city" type="text" placeholder="New York"><span class="err"></span></div>
+          <div class="field"><label>Postal Code</label><input name="postal" type="text" placeholder="10001"><span class="err"></span></div>
+        </div>
+
+        <h3 style="font-family:var(--font);margin:18px 0">💳 Payment Method</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <label class="card" style="padding:14px;display:flex;gap:10px;align-items:center;cursor:pointer"><input type="radio" name="payment" value="Cash on Delivery" checked> 💵 Cash on Delivery</label>
+          <label class="card" style="padding:14px;display:flex;gap:10px;align-items:center;cursor:pointer"><input type="radio" name="payment" value="Credit Card"> 💳 Credit Card</label>
+          <label class="card" style="padding:14px;display:flex;gap:10px;align-items:center;cursor:pointer"><input type="radio" name="payment" value="Debit Card"> 🏧 Debit Card</label>
+          <label class="card" style="padding:14px;display:flex;gap:10px;align-items:center;cursor:pointer"><input type="radio" name="payment" value="UPI"> 📱 UPI</label>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit" style="margin-top:22px">🔒 Place Order</button>
+      </form>
+      <div class="summary glass" id="checkoutSummary"></div>
+    </div>
+  </main>
+  <div id="footer-placeholder"></div>
+  <script src="/js/books.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/checkout.js"></script>
+</body>
+</html>

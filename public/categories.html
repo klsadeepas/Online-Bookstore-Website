@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categories — BookNest</title>
+  <meta name="description" content="Explore all book categories at BookNest — programming, science, business, novels, children and more." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <header class="page-banner">
+    <div class="container">
+      <h1>Book Categories</h1>
+      <div class="breadcrumb"><a href="/index.html">Home</a> / <span>Categories</span></div>
+    </div>
+  </header>
+  <main class="container section">
+    <div class="cat-grid" id="allCats"></div>
+  </main>
+  <div id="footer-placeholder"></div>
+  <script src="/js/books.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('allCats').innerHTML = CATEGORIES.map((c,i)=>{
+        const n = BOOKS.filter(b=>b.category===c.name).length;
+        return `<a class="cat-tile reveal d${(i%5)+1}" href="/books.html?category=${encodeURIComponent(c.name)}" style="background:${c.grad};min-height:150px"><span class="c-ico">${c.icon}</span><h4>${c.name}</h4><small>${n} book${n!==1?'s':''}</small></a>`;
+      }).join('');
+      observeReveal();
+    });
+  </script>
+</body>
+</html>

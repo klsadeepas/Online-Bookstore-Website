@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — BookNest</title>
+  <meta name="description" content="Frequently asked questions about ordering, shipping, returns, payments and accounts at BookNest." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <header class="page-banner"><div class="container"><h1>Frequently Asked Questions</h1><div class="breadcrumb"><a href="/index.html">Home</a> / <span>FAQ</span></div></div></header>
+
+  <main class="container section" style="max-width:820px">
+    <div id="faqList"></div>
+    <div class="newsletter reveal" style="margin-top:40px">
+      <h2>Still have questions?</h2>
+      <p>Our friendly support team is just a message away.</p>
+      <a class="btn btn-accent" href="/contact.html">Contact Support</a>
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="/js/books.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    const FAQS = [
+      {q:'How long does delivery take?', a:'Standard delivery takes 3–5 business days. Express options are available at checkout for next-day delivery in select regions.'},
+      {q:'Is shipping really free?', a:'Yes! We offer free standard shipping on all orders over $35. Orders below that have a flat $4.99 shipping fee.'},
+      {q:'What payment methods do you accept?', a:'We accept Cash on Delivery, Credit Card, Debit Card and UPI. All online payments are processed securely.'},
+      {q:'Can I return a book?', a:'Absolutely. You have 30 days from delivery to return any book in its original condition for a full refund.'},
+      {q:'Do you sell e-books?', a:'Currently BookNest specialises in physical books, but our digital library is coming soon — join the newsletter to be notified.'},
+      {q:'How do I use a coupon code?', a:'Add books to your cart, then enter your coupon code in the “Coupon code” box on the cart page and click Apply. Try WELCOME15!'},
+      {q:'Can I track my order?', a:'Yes. After placing an order you receive an order number and a confirmation email. Use it on our contact page to get live updates.'},
+      {q:'Are my details secure?', a:'Your privacy matters. Data is stored securely and we never share your personal information with third parties.'},
+      {q:'Do you ship internationally?', a:'We ship to most countries worldwide. Shipping fees and delivery times vary by destination and are shown at checkout.'},
+      {q:'How do I save books for later?', a:'Click the heart icon on any book to add it to your wishlist. Your wishlist is saved on your device automatically.'}
+    ];
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('faqList').innerHTML = FAQS.map((f,i)=>`
+        <div class="accordion-item reveal d${(i%5)+1}">
+          <button class="accordion-head" aria-expanded="false">${f.q}<span class="chev">▾</span></button>
+          <div class="accordion-body"><p style="padding-top:4px">${f.a}</p></div>
+        </div>`).join('');
+      document.querySelectorAll('.accordion-head').forEach(btn => btn.onclick = () => {
+        const item = btn.parentNode;
+        const open = item.classList.contains('open');
+        document.querySelectorAll('.accordion-item').forEach(x=>{x.classList.remove('open');x.querySelector('.accordion-head').setAttribute('aria-expanded','false');});
+        if (!open) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+      });
+      observeReveal();
+    });
+  </script>
+</body>
+</html>

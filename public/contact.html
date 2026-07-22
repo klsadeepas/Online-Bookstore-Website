@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — BookNest</title>
+  <meta name="description" content="Get in touch with the BookNest team. We would love to hear from you — questions, feedback or just book talk." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <header class="page-banner"><div class="container"><h1>Get In Touch</h1><div class="breadcrumb"><a href="/index.html">Home</a> / <span>Contact</span></div></div></header>
+
+  <main class="container section">
+    <div class="details-grid">
+      <div class="reveal left">
+        <span class="eyebrow">Contact</span>
+        <h2>We’d love to hear from you</h2>
+        <p style="color:var(--text-light);margin:14px 0 24px">Whether you have a question about an order, a book recommendation request, or just want to say hello — our team is here to help.</p>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card" style="padding:16px;display:flex;gap:14px;align-items:center"><span style="font-size:1.4rem">📧</span><div><strong>Email</strong><br><span style="color:var(--text-light)">hello@booknest.com</span></div></div>
+          <div class="card" style="padding:16px;display:flex;gap:14px;align-items:center"><span style="font-size:1.4rem">📞</span><div><strong>Phone</strong><br><span style="color:var(--text-light)">+1 (555) 234-5678</span></div></div>
+          <div class="card" style="padding:16px;display:flex;gap:14px;align-items:center"><span style="font-size:1.4rem">📍</span><div><strong>Address</strong><br><span style="color:var(--text-light)">221B Reading Lane, Book City, 10001</span></div></div>
+        </div>
+        <div class="footer socials" style="background:none;padding:20px 0 0;margin:0">
+          <div class="socials" style="display:flex;gap:10px">
+            <a href="#" style="width:42px;height:42px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;color:var(--text-dark)">f</a>
+            <a href="#" style="width:42px;height:42px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;color:var(--text-dark)">𝕏</a>
+            <a href="#" style="width:42px;height:42px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;color:var(--text-dark)">◉</a>
+            <a href="#" style="width:42px;height:42px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;color:var(--text-dark)">▶</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal right">
+        <form id="contactForm" class="card" style="padding:28px" novalidate>
+          <div class="field"><label>Name</label><input name="name" type="text" placeholder="Your name" required><span class="err">Please enter your name</span></div>
+          <div class="field"><label>Email</label><input name="email" type="email" placeholder="you@email.com" required><span class="err">Enter a valid email</span></div>
+          <div class="field"><label>Subject</label><input name="subject" type="text" placeholder="How can we help?" required><span class="err">Please enter a subject</span></div>
+          <div class="field"><label>Message</label><textarea name="message" rows="5" placeholder="Write your message..." required></textarea><span class="err">Please enter a message</span></div>
+          <button class="btn btn-primary btn-block" type="submit">Send Message</button>
+        </form>
+        <div class="map-placeholder reveal" style="margin-top:24px">🗺️  BookNest HQ — 221B Reading Lane</div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="/js/books.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('contactForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let ok = true;
+        form.querySelectorAll('[required]').forEach(inp => {
+          const field = inp.closest('.field');
+          const valid = inp.type==='email' ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value) : inp.value.trim().length>1;
+          field.classList.toggle('invalid', !valid);
+          if (!valid) ok = false;
+        });
+        if (!ok) { toast('Please complete the form', 'error'); return; }
+        form.reset();
+        toast('Message sent! We\u2019ll reply within 24h 📨', 'success');
+      });
+    });
+  </script>
+</body>
+</html>

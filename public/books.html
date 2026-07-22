@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Books — BookNest</title>
+  <meta name="description" content="Browse and filter the full BookNest catalog. Search by title, author or category and sort by price, rating and popularity." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <header class="page-banner">
+    <div class="container">
+      <h1 id="shopHeading">All Books</h1>
+      <div class="breadcrumb"><a href="/index.html">Home</a> / <span>Books</span></div>
+    </div>
+  </header>
+
+  <main class="container section" id="shopTop">
+    <div class="shop-layout">
+      <!-- Filters sidebar -->
+      <aside class="filters glass">
+        <div class="filter-group">
+          <h4>Search</h4>
+          <input id="shopSearch" type="text" placeholder="Title, author, publisher..." style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text-dark)">
+        </div>
+        <div class="filter-group"><h4>Category</h4><div id="fCategories"></div></div>
+        <div class="filter-group">
+          <h4>Max Price: <span id="priceVal" class="text-accent">$70.00</span></h4>
+          <input id="fPrice" type="range" min="10" max="70" value="70" step="1">
+        </div>
+        <div class="filter-group"><h4>Minimum Rating</h4>
+          <label><input type="radio" name="fRating" value="0" checked> All ratings</label>
+          <label><input type="radio" name="fRating" value="4.5"> ★ 4.5 & up</label>
+          <label><input type="radio" name="fRating" value="4"> ★ 4.0 & up</label>
+        </div>
+        <div class="filter-group"><h4>Language</h4><div id="fLanguages"></div></div>
+        <div class="filter-group"><h4>Availability</h4>
+          <label><input type="radio" name="fStock" value="all" checked> All</label>
+          <label><input type="radio" name="fStock" value="in"> In stock</label>
+          <label><input type="radio" name="fStock" value="low"> Low stock</label>
+        </div>
+        <button class="btn btn-ghost btn-block" id="resetFilters">Reset Filters</button>
+      </aside>
+
+      <!-- Results -->
+      <section>
+        <div class="shop-toolbar">
+          <span id="resultCount" style="color:var(--text-light);font-weight:600">0 books</span>
+          <label style="display:flex;align-items:center;gap:8px;color:var(--text-light)">Sort by
+            <select id="sortBy">
+              <option value="popular">Most Popular</option>
+              <option value="newest">Newest</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+            </select>
+          </label>
+        </div>
+        <div class="books-grid" id="books"></div>
+        <div class="pagination" id="pagination"></div>
+      </section>
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="/js/books.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/filter.js"></script>
+</body>
+</html>

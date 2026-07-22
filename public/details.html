@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Details — BookNest</title>
+  <meta name="description" content="View detailed information, specifications, reviews and related titles for books at BookNest." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <main class="container section" id="detailRoot">
+    <div class="spinner"></div>
+  </main>
+  <div id="footer-placeholder"></div>
+  <script src="/js/books.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const id = new URLSearchParams(location.search).get('id');
+      const book = getBook(id);
+      const root = document.getElementById('detailRoot');
+      if (!book) { root.innerHTML = `<div class="empty-state"><div class="ico">🔍</div><h2>Book not found</h2><a class="btn btn-primary" href="/books.html" style="margin-top:16px">Back to Books</a></div>`; return; }
+      document.title = book.title + ' — BookNest';
+      addRecent(book.id);
+
+      const stockLabel = book.stock === 0 ? '<span style="color:#ef4444">Out of stock</span>' : book.stock <= 15 ? `<span class="text-accent">Only ${book.stock} left!</span>` : `<span style="color:#22c55e">In stock</span>`;
+
+      root.innerHTML = `
+        <div class="breadcrumb" style="color:var(--text-light);margin-bottom:24px"><a href="/index.html">Home</a> / <a href="/books.html">Books</a> / <a href="/books.html?category=${encodeURIComponent(book.category)}">${book.category}</a> / <span>${book.title}</span></div>
+        <div class="details-grid">
+          <div class="details-cover">
+            <div class="anim-zoom">${coverHTML(book)}</div>
+            <div class="thumb-row" id="thumbs"></div>
+          </div>
+          <div class="anim-slide-up">
+            <span class="eyebrow">${book.category}</span>
+            <h1 style="font-size:clamp(1.8rem,3vw,2.6rem)">${book.title}</h1>
+            <p style="color:var(--text-light);font-size:1.05rem">by <strong>${book.author}</strong> · ${book.publisher}</p>
+            <div style="display:flex;align-items:center;gap:14px;margin:12px 0">${starsHTML(book.rating, book.reviews)} · ${stockLabel}</div>
+            <div class="price-row" style="margin:16px 0"><span class="price" style="font-size:2rem">${money(book.price)}</span> <span class="old-price" style="font-size:1.1rem">${money(book.oldPrice)}</span> <span class="disc-tag" style="position:static">-${book.discount}% OFF</span></div>
+            <p style="margin-bottom:22px">${book.description}</p>
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px">
+              <div class="qty-selector"><button onclick="chgQty(-1)">−</button><input id="qty" value="1" readonly><button onclick="chgQty(1)">+</button></div>
+              <button class="btn btn-primary" onclick="addToCart(${book.id}, +document.getElementById('qty').value)" ${book.stock===0?'disabled style=opacity:.5':''}>🛒 Add to Cart</button>
+              <button class="btn btn-accent" onclick="buyNow(${book.id})" ${book.stock===0?'disabled style=opacity:.5':''}>⚡ Buy Now</button>
+              <button class="icon-btn" style="border:1px solid var(--border)" onclick="toggleWishlist(${book.id}, this)" aria-label="Wishlist">♡</button>
+            </div>
+            <div class="card" style="padding:16px;display:flex;gap:24px;flex-wrap:wrap;font-size:0.88rem;color:var(--text-light)">
+              <span>🚚 Free shipping over $35</span><span>↩️ 30-day returns</span><span>🔒 Secure checkout</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs" style="margin-top:50px">
+          <button class="active" data-tab="desc">Description</button>
+          <button data-tab="spec">Specifications</button>
+          <button data-tab="rev">Reviews (${book.reviews})</button>
+        </div>
+        <div id="tab-desc" class="tab-panel"><p>${book.description} This edition brings clarity and depth, thoughtfully written by ${book.author} and published by ${book.publisher}. A perfect addition to any ${book.category.toLowerCase()} collection.</p></div>
+        <div id="tab-spec" class="tab-panel hidden">
+          <table class="spec-table">
+            <tr><td>Author</td><td>${book.author}</td></tr>
+            <tr><td>Publisher</td><td>${book.publisher}</td></tr>
+            <tr><td>Language</td><td>${book.language}</td></tr>
+            <tr><td>Pages</td><td>${book.pages}</td></tr>
+            <tr><td>ISBN</td><td>${book.isbn}</td></tr>
+            <tr><td>Published</td><td>${new Date(book.published).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</td></tr>
+            <tr><td>Category</td><td>${book.category}</td></tr>
+          </table>
+        </div>
+        <div id="tab-rev" class="tab-panel hidden">
+          <div style="display:flex;gap:30px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
+            <div style="text-align:center"><div style="font-size:3rem;font-weight:800;font-family:var(--font-head);color:var(--primary)">${book.rating}</div>${starsHTML(book.rating)}<div style="color:var(--text-light);font-size:0.85rem">${book.reviews} reviews</div></div>
+            <div style="flex:1;min-width:220px" id="revList"></div>
+          </div>
+        </div>
+
+        <section class="section" style="padding-bottom:0">
+          <div class="section-head" style="text-align:left;margin-left:0"><h2>Related Books</h2></div>
+          <div class="books-grid" id="related"></div>
+        </section>
+        <section class="section" id="recentSec" style="display:none;padding-bottom:0">
+          <div class="section-head" style="text-align:left;margin-left:0"><h2>Recently Viewed</h2></div>
+          <div class="books-grid" id="recent"></div>
+        </section>`;
+
+      // Wishlist active state
+      if (isWished(book.id)) root.querySelector('.icon-btn[onclick*=toggleWishlist]').classList.add('active');
+
+      // Thumbnails (same cover angles for demo)
+      document.getElementById('thumbs').innerHTML = [0,1,2].map(i=>`<div class="book-cover ${i===0?'active':''}" style="background:${coverGradient(book.category)}" onclick="this.parentNode.querySelectorAll('.book-cover').forEach(x=>x.classList.remove('active'));this.classList.add('active')"></div>`).join('');
+
+      // Tabs
+      root.querySelectorAll('.tabs button').forEach(btn => btn.onclick = () => {
+        root.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        root.querySelectorAll('.tab-panel').forEach(p=>p.classList.add('hidden'));
+        document.getElementById('tab-'+btn.dataset.tab).classList.remove('hidden');
+      });
+
+      // Sample reviews
+      const names=['Jordan','Riley','Casey','Morgan'];
+      document.getElementById('revList').innerHTML = names.slice(0,3).map((n,i)=>`<div class="card" style="padding:14px;margin-bottom:10px"><div style="display:flex;justify-content:space-between"><strong>${n} ${String.fromCharCode(65+i)}.</strong>${starsHTML(Math.round(book.rating))}</div><p style="color:var(--text-light);font-size:0.9rem;margin-top:6px">A wonderful read. Would definitely recommend to anyone interested in ${book.category.toLowerCase()}.</p></div>`).join('');
+
+      // Related
+      renderBooks(BOOKS.filter(b=>b.category===book.category && b.id!==book.id).slice(0,4), 'related');
+
+      // Recently viewed (exclude current)
+      const recent = getRecent().filter(b=>b.id!==book.id).slice(0,4);
+      if (recent.length) { document.getElementById('recentSec').style.display='block'; renderBooks(recent, 'recent'); }
+
+      observeReveal();
+    });
+
+    function chgQty(d){ const q=document.getElementById('qty'); q.value=Math.max(1, (+q.value)+d); }
+    function buyNow(id){ addToCart(id, +document.getElementById('qty').value); location.href='/checkout.html'; }
+  </script>
+</body>
+</html>
